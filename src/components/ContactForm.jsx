@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledForm = styled.form`
@@ -54,55 +54,56 @@ const StyledButton = styled.button`
 
   text-align: center;
 `;
-export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
 
-  handleSubmit = event => {
+export const ContactForm = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleSubmit = event => {
     event.preventDefault();
-    const { name, number } = this.state;
-    this.props.onSubmit({ name, number });
-    this.setState({ name: '', number: '' });
+    onSubmit({ name, number });
+    setName('');
+    setNumber('');
   };
 
-  handleChange = event => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
 
-  render() {
-    return (
-      <StyledForm onSubmit={this.handleSubmit}>
-        <ul>
-          <StyledListItem>
-            <StyledLabel htmlFor="name">Name </StyledLabel>
-            <StyledInput
-              type="text"
-              name="name"
-              id="name"
-              required
-              onChange={this.handleChange}
-              value={this.state.name}
-              placeholder="Name"
-            />
-          </StyledListItem>
-          <StyledListItem>
-            <StyledLabel htmlFor="number">Number </StyledLabel>
-            <StyledInput
-              type="tel"
-              name="number"
-              id="number"
-              required
-              onChange={this.handleChange}
-              value={this.state.number}
-              placeholder="Number"
-            />
-          </StyledListItem>
-        </ul>
-        <StyledButton type="submit">Add contact</StyledButton>
-      </StyledForm>
-    );
-  }
-}
+  return (
+    <StyledForm onSubmit={handleSubmit}>
+      <ul>
+        <StyledListItem>
+          <StyledLabel htmlFor="name">Name </StyledLabel>
+          <StyledInput
+            type="text"
+            name="name"
+            id="name"
+            required
+            onChange={handleChange}
+            value={name}
+            placeholder="Name"
+          />
+        </StyledListItem>
+        <StyledListItem>
+          <StyledLabel htmlFor="number">Number </StyledLabel>
+          <StyledInput
+            type="tel"
+            name="number"
+            id="number"
+            required
+            onChange={handleChange}
+            value={number}
+            placeholder="Number"
+          />
+        </StyledListItem>
+      </ul>
+      <StyledButton type="submit">Add contact</StyledButton>
+    </StyledForm>
+  );
+};
