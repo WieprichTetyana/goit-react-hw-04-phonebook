@@ -48,17 +48,6 @@ export const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-  /* componentDidMount() {
-    const storedContacts = localStorage.getItem('contacts');
-    if (storedContacts) {
-      this.setState({ contacts: JSON.parse(storedContacts) });
-    }
-  }
-
-  componentDidUpdate() {
-    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  }
- */
   const createContact = contactData => {
     const { name, number } = contactData;
     const newContact = { name, number, id: nanoid() };
