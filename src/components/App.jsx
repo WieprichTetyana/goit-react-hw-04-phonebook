@@ -50,8 +50,13 @@ export const App = () => {
 
   const createContact = contactData => {
     const { name, number } = contactData;
-    const newContact = { name, number, id: nanoid() };
-    setContacts(prevContacts => [...prevContacts, newContact]);
+    const existingContact = contacts.find(contact => contact.name === name);
+    if (existingContact) {
+      alert(`${name} is already in contacts.`);
+    } else {
+      const newContact = { name, number, id: nanoid() };
+      setContacts(prevContacts => [...prevContacts, newContact]);
+    }
   };
 
   const handleFilter = event => {
